@@ -1,0 +1,30 @@
+name: Build APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: 8.7 }
+      - name: Rebuild folders
+        run: |
+          set -e
+          mkdir -p app/src/main/java/it/cnlogo/app app/src/main/res/drawable-nodpi app/src/main/res/mipmap-xxxhdpi
+          cp LogoService.java MainActivity.java app/src/main/java/it/cnlogo/app/
+          cp cn_logo.png app/src/main/res/drawable-nodpi/
+          cp ic_launcher.png app/src/main/res/mipmap-xxxhdpi/
+          cp AndroidManifest.xml app/src/main/
+          for f in build.gradle "build (1).gradle"; do
+            if [ -f "$f" ]; then
+              if grep -q namespace "$f"; then cp "$f" app/build.gradle; else cp "$f" ./build.gradle.tmp; fi
+            fi
+          done
+          [ -f build.gradle.tmp ] && mv build.gradle.tmp build.gradle
+          true
+      - run: gradle assembleDebug
+      - uses: actions/upload-artifact@v4
+        with: { name: CNLogo-apk, path: app/build/outputs/apk/debug/app-debug.apk }
