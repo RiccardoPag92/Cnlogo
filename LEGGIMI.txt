@@ -1,0 +1,9 @@
+CN LOGO per Android (solo il logo Cartoon Network, posizione fissa)
+Valori: orizzontale 93%, verticale 13%, dimensione 7%, visibilita' 80%. Uguale in verticale e in orizzontale.
+
+COME FARE L'APK (scegli uno):
+A) Android Studio: File > Open > cartella CNLogoAndroid > Build > Build APK(s).
+   File: app/build/outputs/apk/debug/app-debug.apk
+B) GitHub: crea un repository, carica tutta la cartella (con .github), vai su Actions > Build APK > scarica "CNLogo-apk".
+
+SUL TELEFONO: installa l'APK > apri CN LOGO > DAI IL PERMESSO > attiva "Mostra sopra altre app" > torna indietro > ACCENDI.
